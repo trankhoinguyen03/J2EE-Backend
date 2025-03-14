@@ -10,9 +10,17 @@ import org.mapstruct.factory.Mappers;
 public interface NotificationMapper {
     NotificationMapper INSTANCE = Mappers.getMapper(NotificationMapper.class);
 
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "userId", expression = "java(notification.getUser() != null ? notification.getUser().getId() : null)")
+    @Mapping(target = "message", source = "message")
+    @Mapping(target = "isRead", source = "isRead")
+    @Mapping(target = "createdAt", source = "createdAt")
     NotificationDTO toDto(Notification notification);
 
-    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "user.id", expression = "java(notificationDTO.getUserId() != null ? notificationDTO.getUserId() : null)")
+    @Mapping(target = "message", source = "message")
+    @Mapping(target = "isRead", source = "isRead")
+    @Mapping(target = "createdAt", source = "createdAt")
     Notification toEntity(NotificationDTO notificationDTO);
 }

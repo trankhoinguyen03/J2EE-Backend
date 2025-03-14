@@ -32,6 +32,6 @@ public class TransferredRecord {
     private LocalDateTime transferredAt;
 
     public enum Status {
-        Chờ_xác_nhận, Đã_tiếp_nhận, Hoàn_thành
+        pending, accepted, completed
     }
 }

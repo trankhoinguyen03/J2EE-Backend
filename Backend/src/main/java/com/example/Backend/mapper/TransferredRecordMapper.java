@@ -10,13 +10,17 @@ import org.mapstruct.factory.Mappers;
 public interface TransferredRecordMapper {
     TransferredRecordMapper INSTANCE = Mappers.getMapper(TransferredRecordMapper.class);
 
-    @Mapping(target = "recordId", source = "medicalRecord.id")
-    @Mapping(target = "doctorId", source = "doctor.id")
-    @Mapping(target = "status", expression = "java(transferredRecord.getStatus().toString())")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "recordId", expression = "java(transferredRecord.getMedicalRecord() != null ? transferredRecord.getMedicalRecord().getId() : null)")
+    @Mapping(target = "doctorId", expression = "java(transferredRecord.getDoctor() != null ? transferredRecord.getDoctor().getId() : null)")
+    @Mapping(target = "status", expression = "java(transferredRecord.getStatus() != null ? transferredRecord.getStatus().name() : null)")
+    @Mapping(target = "transferredAt", source = "transferredAt")
     TransferredRecordDTO toDto(TransferredRecord transferredRecord);
 
-    @Mapping(target = "medicalRecord.id", source = "recordId")
-    @Mapping(target = "doctor.id", source = "doctorId")
-    @Mapping(target = "status", expression = "java(TransferredRecord.Status.valueOf(transferredRecordDTO.getStatus()))")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "medicalRecord.id", expression = "java(transferredRecordDTO.getRecordId() != null ? transferredRecordDTO.getRecordId() : null)")
+    @Mapping(target = "doctor.id", expression = "java(transferredRecordDTO.getDoctorId() != null ? transferredRecordDTO.getDoctorId() : null)")
+    @Mapping(target = "status", expression = "java(transferredRecordDTO.getStatus() != null ? TransferredRecord.Status.valueOf(transferredRecordDTO.getStatus()) : null)")
+    @Mapping(target = "transferredAt", source = "transferredAt")
     TransferredRecord toEntity(TransferredRecordDTO transferredRecordDTO);
 }

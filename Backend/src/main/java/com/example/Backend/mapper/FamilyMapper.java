@@ -10,11 +10,19 @@ import org.mapstruct.factory.Mappers;
 public interface FamilyMapper {
     FamilyMapper INSTANCE = Mappers.getMapper(FamilyMapper.class);
 
-    @Mapping(target = "userId", source = "user.id")
-    @Mapping(target = "gender", expression = "java(family.getGender().toString())")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "userId", expression = "java(family.getUser() != null ? family.getUser().getId() : null)")
+    @Mapping(target = "memberName", source = "memberName")
+    @Mapping(target = "birthDate", source = "birthDate")
+    @Mapping(target = "gender", expression = "java(family.getGender() != null ? family.getGender().name() : null)")
+    @Mapping(target = "relationship", source = "relationship")
     FamilyDTO toDto(Family family);
 
-    @Mapping(target = "user.id", source = "userId")
-    @Mapping(target = "gender", expression = "java(Family.Gender.valueOf(familyDTO.getGender()))")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "user.id", expression = "java(familyDTO.getUserId() != null ? familyDTO.getUserId() : null)")
+    @Mapping(target = "memberName", source = "memberName")
+    @Mapping(target = "birthDate", source = "birthDate")
+    @Mapping(target = "gender", expression = "java(familyDTO.getGender() != null ? Family.Gender.valueOf(familyDTO.getGender()) : null)")
+    @Mapping(target = "relationship", source = "relationship")
     Family toEntity(FamilyDTO familyDTO);
 }

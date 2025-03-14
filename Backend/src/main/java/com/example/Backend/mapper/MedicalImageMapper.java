@@ -10,9 +10,15 @@ import org.mapstruct.factory.Mappers;
 public interface MedicalImageMapper {
     MedicalImageMapper INSTANCE = Mappers.getMapper(MedicalImageMapper.class);
 
-    @Mapping(target = "recordId", source = "medicalRecord.id")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "recordId", expression = "java(medicalImage.getMedicalRecord() != null ? medicalImage.getMedicalRecord().getId() : null)")
+    @Mapping(target = "imageUrl", source = "imageUrl")
+    @Mapping(target = "description", source = "description")
     MedicalImageDTO toDto(MedicalImage medicalImage);
 
-    @Mapping(target = "medicalRecord.id", source = "recordId")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "medicalRecord", ignore = true) // MedicalRecord sẽ được set từ Service
+    @Mapping(target = "imageUrl", source = "imageUrl")
+    @Mapping(target = "description", source = "description")
     MedicalImage toEntity(MedicalImageDTO medicalImageDTO);
 }

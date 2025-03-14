@@ -34,6 +34,6 @@ public class Family {
     private String relationship;
 
     public enum Gender {
-        Nam, Nữ, Khác
+        male, female, other
     }
 }

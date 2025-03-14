@@ -10,9 +10,17 @@ import org.mapstruct.factory.Mappers;
 public interface DoctorMapper {
     DoctorMapper INSTANCE = Mappers.getMapper(DoctorMapper.class);
 
-    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "userId", expression = "java(doctor.getUser() != null ? doctor.getUser().getId() : null)")
+    @Mapping(target = "specialty", source = "specialty")
+    @Mapping(target = "hospital", source = "hospital")
+    @Mapping(target = "phone", source = "phone")
     DoctorDTO toDto(Doctor doctor);
 
-    @Mapping(target = "user.id", source = "userId")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "user.id", expression = "java(doctorDTO.getUserId() != null ? doctorDTO.getUserId() : null)")
+    @Mapping(target = "specialty", source = "specialty")
+    @Mapping(target = "hospital", source = "hospital")
+    @Mapping(target = "phone", source = "phone")
     Doctor toEntity(DoctorDTO doctorDTO);
 }

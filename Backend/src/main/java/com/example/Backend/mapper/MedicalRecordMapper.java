@@ -10,11 +10,19 @@ import org.mapstruct.factory.Mappers;
 public interface MedicalRecordMapper {
     MedicalRecordMapper INSTANCE = Mappers.getMapper(MedicalRecordMapper.class);
 
-    @Mapping(target = "familyId", source = "family.id")
-    @Mapping(target = "doctorId", source = "doctor.id")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "familyId", expression = "java(medicalRecord.getFamily() != null ? medicalRecord.getFamily().getId() : null)")
+    @Mapping(target = "doctorId", expression = "java(medicalRecord.getDoctor() != null ? medicalRecord.getDoctor().getId() : null)")
+    @Mapping(target = "diagnosis", source = "diagnosis")
+    @Mapping(target = "treatment", source = "treatment")
+    @Mapping(target = "visitDate", source = "visitDate")
     MedicalRecordDTO toDto(MedicalRecord medicalRecord);
 
-    @Mapping(target = "family.id", source = "familyId")
-    @Mapping(target = "doctor.id", source = "doctorId")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "family.id", expression = "java(medicalRecordDTO.getFamilyId() != null ? medicalRecordDTO.getFamilyId() : null)")
+    @Mapping(target = "doctor.id", expression = "java(medicalRecordDTO.getDoctorId() != null ? medicalRecordDTO.getDoctorId() : null)")
+    @Mapping(target = "diagnosis", source = "diagnosis")
+    @Mapping(target = "treatment", source = "treatment")
+    @Mapping(target = "visitDate", source = "visitDate")
     MedicalRecord toEntity(MedicalRecordDTO medicalRecordDTO);
 }

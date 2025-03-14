@@ -10,9 +10,17 @@ import org.mapstruct.factory.Mappers;
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "role", expression = "java(user.getRole().toString())")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "fullName", source = "fullName")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "role", expression = "java(user.getRole() != null ? user.getRole().name() : null)")
+    @Mapping(target = "createdAt", source = "createdAt")
     UserDTO toDto(User user);
 
-    @Mapping(target = "role", expression = "java(User.Role.valueOf(userDTO.getRole()))")
+    @Mapping(target = "id", source = "id")
+    @Mapping(target = "fullName", source = "fullName")
+    @Mapping(target = "email", source = "email")
+    @Mapping(target = "role", expression = "java(userDTO.getRole() != null ? User.Role.valueOf(userDTO.getRole()) : null)")
+    @Mapping(target = "createdAt", source = "createdAt")
     User toEntity(UserDTO userDTO);
 }

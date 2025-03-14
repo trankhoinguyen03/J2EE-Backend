@@ -31,6 +31,6 @@ public class Vaccination {
     private Status status;
 
     public enum Status {
-        Đã_tiêm, Chưa_tiêm, Hoãn_tiêm
+        vaccinated, not_vaccinated, postponed
     }
 }
